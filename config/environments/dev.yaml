@@ -2,7 +2,7 @@
 # --env dev). Fill in application.baseUrl for your local dev stack - this
 # file ships generic/empty since the framework core has no target app.
 application:
-  baseUrl: 'https://dev.hyundai.com.au'
+  baseUrl: ''
 
 execution:
   headless: false
