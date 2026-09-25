@@ -39,3 +39,7 @@ npm run ai:test -- --env stage
 
 npm run report
 then look in reports/.
+
+
+//To run generated script
+$env:APP_ENV='stage'; npx playwright test tests/generated/Ownership.spec.ts
