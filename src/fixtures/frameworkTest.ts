@@ -30,12 +30,18 @@ export const test = base.extend<{ apiCapture: ApiCallRecord[] }>({
     async ({ page }, use, testInfo) => {
       const calls: ApiCallRecord[] = [];
       const requestStartedAt = new Map<string, number>();
+      // onResponse is async (it awaits response.text()) but 'response' event
+      // listeners aren't awaited by Playwright, so a response arriving right
+      // before the test ends could still be mid-capture when teardown runs.
+      // Tracking each call's promise here lets teardown await them all
+      // before attaching, instead of silently dropping late-arriving calls.
+      const pending: Promise<void>[] = [];
 
       const onRequest = (request: Request) => {
         requestStartedAt.set(`${request.method()} ${request.url()}`, Date.now());
       };
 
-      const onResponse = async (response: Response) => {
+      const captureResponse = async (response: Response) => {
         const request = response.request();
         const key = `${request.method()} ${request.url()}`;
         const startedAt = requestStartedAt.get(key);
@@ -67,6 +73,10 @@ export const test = base.extend<{ apiCapture: ApiCallRecord[] }>({
         });
       };
 
+      const onResponse = (response: Response) => {
+        pending.push(captureResponse(response));
+      };
+
       page.on('request', onRequest);
       page.on('response', onResponse);
 
@@ -74,6 +84,7 @@ export const test = base.extend<{ apiCapture: ApiCallRecord[] }>({
 
       page.off('request', onRequest);
       page.off('response', onResponse);
+      await Promise.allSettled(pending);
 
       try {
         await testInfo.attach('api-calls', {

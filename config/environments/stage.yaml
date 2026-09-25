@@ -2,7 +2,7 @@
 # --env stage). Fill in application.baseUrl for your staging environment -
 # this file ships generic/empty since the framework core has no target app.
 application:
-  baseUrl: ''
+  baseUrl: 'https://stage.hyundai.com.au/'
 
 execution:
   headless: true

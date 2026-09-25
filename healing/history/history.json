@@ -70,5 +70,41 @@
     "patchStatus": "NOT_APPLIED",
     "finalStatus": "NOT_APPLICABLE",
     "reason": "Not a locator-related failure: MOCK analysis: error text did not match known locator-failure heuristics (Successful test drive booking submission returns status code 200)."
+  },
+  {
+    "id": "f4771c3f-4479-41b9-be1b-a7352239e523",
+    "timestamp": "2026-09-25T00:35:47.490Z",
+    "project": "generic-project",
+    "application": "https://stage.hyundai.com.au/",
+    "environment": "stage",
+    "test": "Booking a KONA Hybrid test drive at postcode 2000 with valid contact details and a selected purchase timeframe submits successfully and shows a confirmation message",
+    "scenario": "Booking a KONA Hybrid test drive at postcode 2000 with valid contact details and a selected purchase timeframe submits successfully and shows a confirmation message",
+    "feature": "Book a Test Drive",
+    "evidence": [
+      {
+        "source": "ai",
+        "description": "MOCK suggestion derived from the intended action text \"Booking a KONA Hybrid test drive at postcode 2000 with valid contact details and a selected purchase timeframe submits successfully and shows a confirmation message\". Requires validation before use."
+      }
+    ],
+    "targetedRetry": "NOT_RUN",
+    "regression": "NOT_RUN",
+    "aiProvider": "mock",
+    "approvalStatus": "NOT_APPLICABLE",
+    "patchStatus": "NOT_APPLIED",
+    "finalStatus": "CANDIDATE_FOUND",
+    "candidateLocator": {
+      "strategy": "role",
+      "value": "button",
+      "name": "Booking a KONA Hybrid test drive at postcode 2000 with valid contact details and a selected purchase timeframe submits successfully and shows a confirmation message"
+    },
+    "strategy": "role",
+    "confidence": 0.5,
+    "reason": "MOCK suggestion derived from the intended action text \"Booking a KONA Hybrid test drive at postcode 2000 with valid contact details and a selected purchase timeframe submits successfully and shows a confirmation message\". Requires validation before use.",
+    "validationResult": {
+      "valid": false,
+      "exists": false,
+      "count": 0,
+      "reason": "Locator matched 0 elements."
+    }
   }
 ]
