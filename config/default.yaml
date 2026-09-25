@@ -1,0 +1,44 @@
+# Default framework configuration.
+#
+# This file ships with the framework core and must remain application-agnostic.
+# Project-specific values belong in `config/local.yaml` (git-ignored) or
+# environment variables (see .env.example) - never edit this file to point at
+# a specific application.
+
+project:
+  name: generic-project
+
+application:
+  baseUrl: ''
+
+execution:
+  browser: chromium
+  headless: true
+  timeout: 30000
+  navigationTimeout: 30000
+  retries: 1
+  workers: 1
+  screenshot: only-on-failure
+  trace: retain-on-failure
+  video: retain-on-failure
+
+ai:
+  enabled: true
+  provider: mock
+  model: ''
+  maxRetries: 3
+
+mcp:
+  enabled: true
+  provider: ''
+
+healing:
+  enabled: true
+  autoHeal: true
+  autoPatch: false
+  autoCommit: false
+  autoMerge: false
+  maxAttempts: 3
+  targetedRetry: true
+  regressionAfterHealing: true
+  regressionScope: affected

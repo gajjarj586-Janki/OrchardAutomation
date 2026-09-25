@@ -1,0 +1,16 @@
+# Overrides applied on top of config/default.yaml when APP_ENV=stage (or
+# --env stage). Fill in application.baseUrl for your staging environment -
+# this file ships generic/empty since the framework core has no target app.
+application:
+  baseUrl: ''
+
+execution:
+  headless: true
+  # retries: 0 - deliberate. Flows with real side effects (form submissions,
+  # bookings, payments) must never be silently retried by Playwright, since
+  # a retry re-runs the whole test from scratch and would submit again.
+  # Fix flakiness at the source (proper waits) instead of retrying it away.
+  retries: 0
+  timeout: 60000
+  navigationTimeout: 45000
+  trace: retain-on-failure

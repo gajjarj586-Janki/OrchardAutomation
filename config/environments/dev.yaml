@@ -1,0 +1,10 @@
+# Overrides applied on top of config/default.yaml when APP_ENV=dev (or
+# --env dev). Fill in application.baseUrl for your local dev stack - this
+# file ships generic/empty since the framework core has no target app.
+application:
+  baseUrl: ''
+
+execution:
+  headless: false
+  retries: 0
+  trace: on-first-retry

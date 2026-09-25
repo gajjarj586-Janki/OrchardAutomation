@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Framework Self-Check Panel</title>
+  </head>
+  <body>
+    <h1>Framework Self-Check Panel</h1>
+    <p>This page is a framework-owned test fixture. It is not part of any business application.</p>
+    <button type="button">Confirm</button>
+    <p id="status">Status: idle</p>
+    <script>
+      document.querySelector('button').addEventListener('click', () => {
+        document.getElementById('status').textContent = 'Status: confirmed';
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+# Overrides applied on top of config/default.yaml when APP_ENV=prod (or
+# --env prod). Fill in application.baseUrl for production. Kept
+# conservative: more retries, lighter artifacts (no full video), and
+# healing left on read-only (autoPatch is already false by default).
+application:
+  baseUrl: ''
+
+execution:
+  headless: true
+  retries: 2
+  screenshot: only-on-failure
+  trace: on-first-retry
+  video: 'off'

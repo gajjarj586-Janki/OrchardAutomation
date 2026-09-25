@@ -1,0 +1,58 @@
+{
+  "name": "generic-ai-playwright-framework",
+  "version": "0.1.0",
+  "description": "Generic, reusable, AI-powered Playwright BDD self-healing test automation framework core.",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "tsx scripts/test-unit.ts",
+    "clean": "tsx scripts/clean.ts",
+    "cli": "tsx src/cli/index.ts",
+    "requirements": "tsx src/cli/index.ts requirements",
+    "generate:features": "tsx src/cli/index.ts generate:features",
+    "validate:features": "tsx src/cli/index.ts validate:features",
+    "generate:steps": "tsx src/cli/index.ts generate:steps",
+    "generate:tests": "tsx src/cli/index.ts generate:tests",
+    "discover:locators": "tsx src/cli/index.ts discover:locators",
+    "analyze:failures": "tsx src/cli/index.ts analyze:failures",
+    "heal": "tsx src/cli/index.ts heal",
+    "retry:failed": "tsx src/cli/index.ts retry:failed",
+    "regression": "tsx src/cli/index.ts regression",
+    "report": "tsx src/cli/index.ts report",
+    "ai:test": "tsx src/cli/index.ts ai:test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "@cucumber/gherkin": "^28.0.0",
+    "@cucumber/messages": "^24.1.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@playwright/mcp": "^0.0.82",
+    "chalk": "^4.1.2",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "openai": "^4.104.0",
+    "yaml": "^2.5.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "@playwright/test": "^1.47.0",
+    "@types/node": "^20.16.5",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.5.0"
+  }
+}

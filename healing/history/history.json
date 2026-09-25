@@ -1,0 +1,74 @@
+[
+  {
+    "id": "bf95401e-e3b2-4574-a189-99334842a0cb",
+    "timestamp": "2026-09-24T05:37:35.366Z",
+    "project": "generic-project",
+    "application": "https://stage.hyundai.com.au/",
+    "environment": "stage",
+    "test": "Successful test drive booking submission returns status code 200",
+    "scenario": "Successful test drive booking submission returns status code 200",
+    "feature": "Hyundai Book a test drive - Verify status code in API Payload",
+    "evidence": [],
+    "targetedRetry": "NOT_RUN",
+    "regression": "NOT_RUN",
+    "aiProvider": "mock",
+    "approvalStatus": "NOT_APPLICABLE",
+    "patchStatus": "NOT_APPLIED",
+    "finalStatus": "NOT_APPLICABLE",
+    "reason": "Not a locator-related failure: MOCK analysis: error text did not match known locator-failure heuristics (Successful test drive booking submission returns status code 200)."
+  },
+  {
+    "id": "0ea4a15a-1b23-4969-81f7-4a877513e6d6",
+    "timestamp": "2026-09-24T05:42:06.677Z",
+    "project": "generic-project",
+    "application": "https://stage.hyundai.com.au/",
+    "environment": "stage",
+    "test": "Successful test drive booking submission returns status code 200",
+    "scenario": "Successful test drive booking submission returns status code 200",
+    "feature": "Hyundai Book a test drive - Verify status code in API Payload",
+    "evidence": [
+      {
+        "source": "ai",
+        "description": "MOCK suggestion derived from the intended action text \"Successful test drive booking submission returns status code 200\". Requires validation before use."
+      }
+    ],
+    "targetedRetry": "NOT_RUN",
+    "regression": "NOT_RUN",
+    "aiProvider": "mock",
+    "approvalStatus": "NOT_APPLICABLE",
+    "patchStatus": "NOT_APPLIED",
+    "finalStatus": "CANDIDATE_FOUND",
+    "candidateLocator": {
+      "strategy": "role",
+      "value": "button",
+      "name": "Successful test drive booking submission returns status code 200"
+    },
+    "strategy": "role",
+    "confidence": 0.5,
+    "reason": "MOCK suggestion derived from the intended action text \"Successful test drive booking submission returns status code 200\". Requires validation before use.",
+    "validationResult": {
+      "valid": false,
+      "exists": false,
+      "count": 0,
+      "reason": "Locator matched 0 elements."
+    }
+  },
+  {
+    "id": "8ece9328-563e-43f3-a226-60ae0889a15b",
+    "timestamp": "2026-09-24T05:46:43.547Z",
+    "project": "generic-project",
+    "application": "https://stage.hyundai.com.au/",
+    "environment": "stage",
+    "test": "Successful test drive booking submission returns status code 200",
+    "scenario": "Successful test drive booking submission returns status code 200",
+    "feature": "Hyundai Book a test drive - Verify status code in API Payload",
+    "evidence": [],
+    "targetedRetry": "NOT_RUN",
+    "regression": "NOT_RUN",
+    "aiProvider": "mock",
+    "approvalStatus": "NOT_APPLICABLE",
+    "patchStatus": "NOT_APPLIED",
+    "finalStatus": "NOT_APPLICABLE",
+    "reason": "Not a locator-related failure: MOCK analysis: error text did not match known locator-failure heuristics (Successful test drive booking submission returns status code 200)."
+  }
+]

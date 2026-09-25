@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      # Playwright's own browser binaries need to be installed separately -
+      # they are not part of `npm ci`. This framework does not assume MCP
+      # (or any live application) is available in CI; see docs/mcp.md and
+      # docs/ci-cd.md. AI runs against the built-in mock provider unless
+      # AI_PROVIDER/AI_API_KEY secrets are configured for this repo.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run the full ai:test pipeline
+        run: npm run ai:test
+        continue-on-error: true
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            reports/
+            test-results/
+          retention-days: 14

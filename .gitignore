@@ -1,0 +1,25 @@
+node_modules/
+dist/
+
+# secrets
+.env
+*.env.local
+
+# per-machine config overrides (config/environments/*.yaml is committed and shared - this isn't)
+config/local.yaml
+
+# playwright / reports
+reports/
+test-results/
+playwright-report/
+blob-report/
+
+# editor / os
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+npm-debug.log*
