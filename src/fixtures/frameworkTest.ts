@@ -95,6 +95,112 @@ export const test = base.extend<{ apiCapture: ApiCallRecord[] }>({
         // attaching must never crash the test
       }
 
+      // Bakes any mutating, first-party API call's JSON payload into the
+      // page before the final screenshot below, so reports/playwright shows
+      // what was actually sent - not just a confirmation banner - for every
+      // test, without each Page Object needing its own copy of this.
+      // "Valid JSON body" alone isn't a strict enough filter: some
+      // third-party trackers (observed: Snapchat's pixel, adsrvr.org's
+      // conversion beacon) also POST JSON. Restricting to the page's own
+      // hostname is what actually isolates the app's own form-submission
+      // calls from the hundreds of third-party analytics/tracking requests
+      // a real page fires - no per-page allowlist needed.
+      let pageHostname: string | null = null;
+      try {
+        pageHostname = new URL(page.url()).hostname;
+      } catch {
+        // page may be closed/navigated away - fall through with no filter
+      }
+
+      const payloadCalls = calls
+        .filter((c) => ['POST', 'PUT', 'PATCH'].includes(c.method) && c.requestBody)
+        .filter((c) => {
+          if (!pageHostname) return true;
+          try {
+            return new URL(c.url).hostname === pageHostname;
+          } catch {
+            return false;
+          }
+        })
+        .map((c) => {
+          try {
+            return { method: c.method, url: c.url, status: c.status, payload: JSON.parse(c.requestBody!) };
+          } catch {
+            return null;
+          }
+        })
+        .filter(
+          (c): c is { method: string; url: string; status: number | undefined; payload: unknown } =>
+            c !== null
+        );
+
+      if (payloadCalls.length > 0) {
+        try {
+          if (!page.isClosed()) {
+            await page.evaluate((callsJson: string) => {
+              const doc = (globalThis as unknown as { document: any }).document;
+              const calls = JSON.parse(callsJson) as Array<{
+                method: string;
+                url: string;
+                status?: number;
+                payload: Record<string, unknown>;
+              }>;
+
+              const valueColor = (v: unknown) =>
+                v === null
+                  ? '#8e8e8e'
+                  : typeof v === 'boolean' || typeof v === 'number'
+                    ? '#1a01cc'
+                    : '#c41a16';
+              const formatValue = (v: unknown) => (v === null ? 'null' : JSON.stringify(v));
+
+              const panel = doc.createElement('div');
+              panel.id = 'framework-captured-payloads-panel';
+              Object.assign(panel.style, {
+                margin: '0',
+                padding: '16px 20px',
+                background: '#f8f9fa',
+                color: '#202124',
+                fontFamily: 'Menlo, Consolas, "Roboto Mono", monospace',
+                fontSize: '12px',
+                lineHeight: '1.6',
+                borderTop: '3px solid #1a73e8',
+              });
+
+              for (const call of calls) {
+                const heading = doc.createElement('div');
+                heading.textContent = `Captured Payload — ${call.method} ${call.status ?? ''} ${call.url}`;
+                Object.assign(heading.style, {
+                  fontWeight: '700',
+                  fontSize: '13px',
+                  margin: '12px 0 8px',
+                  color: '#1a73e8',
+                });
+                panel.appendChild(heading);
+
+                const entries = Object.entries(call.payload ?? {}).sort(([a], [b]) => a.localeCompare(b));
+                for (const [key, value] of entries) {
+                  const row = doc.createElement('div');
+                  const keySpan = doc.createElement('span');
+                  keySpan.textContent = key + ': ';
+                  keySpan.style.color = '#881391';
+                  const valueSpan = doc.createElement('span');
+                  valueSpan.textContent = formatValue(value);
+                  valueSpan.style.color = valueColor(value);
+                  row.appendChild(keySpan);
+                  row.appendChild(valueSpan);
+                  panel.appendChild(row);
+                }
+              }
+
+              doc.body.appendChild(panel);
+            }, JSON.stringify(payloadCalls));
+          }
+        } catch {
+          // best-effort visual aid only - must never fail the test
+        }
+      }
+
       try {
         if (!page.isClosed()) {
           const screenshot = await page.screenshot({ fullPage: true });

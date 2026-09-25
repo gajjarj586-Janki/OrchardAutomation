@@ -15,6 +15,12 @@ export default defineConfig({
   timeout: execution.timeout,
   retries: execution.retries,
   workers: execution.workers,
+  // Runs once after every test run (regardless of how it was invoked) and
+  // after all reporters below have finished writing - generates
+  // reports/json/*.json and one PDF per test under reports/pdf/
+  // automatically, without a separate `npm run report` step. See
+  // src/reporting/globalTeardown.ts.
+  globalTeardown: './src/reporting/globalTeardown.ts',
   reporter: [
     ['list'],
     ['html', { outputFolder: 'reports/playwright', open: 'never' }],

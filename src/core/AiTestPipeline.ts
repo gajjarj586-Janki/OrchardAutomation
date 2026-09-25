@@ -18,6 +18,7 @@ import { collectFailuresFromReport } from '../execution/FailureCollector';
 import { runRegression } from '../execution/RegressionRunner';
 import { HealingHistory, type HealingAttemptRecord } from '../healer/HealingHistory';
 import { generateReports } from '../reporting/ReportGenerator';
+import { archivePdfReports } from '../reporting/PdfReportArchiver';
 import type { FrameworkConfig } from '../config/schema';
 
 const TOTAL_STAGES = 12;
@@ -347,7 +348,7 @@ export async function runAiTestPipeline(
         ? 'HEALED'
         : 'FAILED';
 
-  generateReports({
+  const reportResult = generateReports({
     rootDir,
     config,
     requirementsProcessed: requirementCount,
@@ -356,8 +357,16 @@ export async function runAiTestPipeline(
     healingRecords: history.all(),
   });
 
+  // Same accumulating, screenshot-embedded PDF as `npm run report` - see
+  // PdfReportArchiver.ts. Called here too since ai:test generates reports
+  // directly rather than going through that CLI command.
+  const pdfPaths = await archivePdfReports({ rootDir, testRun: reportResult.testRun });
+
   console.log(`\nFINAL STATUS: ${finalStatus}`);
   console.log(`\nReports:\n${reportsDir}`);
+  for (const pdfPath of pdfPaths) {
+    console.log(`PDF report archived: ${pdfPath}`);
+  }
 
   return { finalStatus, ctx, reportsDir };
 }
